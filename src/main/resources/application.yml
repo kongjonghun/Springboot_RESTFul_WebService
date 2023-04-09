@@ -11,3 +11,10 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: path_pattern_parser
+
+springdoc:
+  consumes-to-match: application/json, application/xml
+  produces-to-match: application/json, application/xml
+  swagger-ui:
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
