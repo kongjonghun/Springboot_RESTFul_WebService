@@ -3,7 +3,6 @@ package LGCNS.RestfulWebService.exception;
 import LGCNS.RestfulWebService.user.UserNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -40,7 +39,7 @@ public class CustomizeResponseEntityExceptionHandler extends ResponseEntityExcep
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers,
-                                                                  HttpStatusCode status,
+                                                                  HttpStatus status,
                                                                   WebRequest request) {
 
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(),
