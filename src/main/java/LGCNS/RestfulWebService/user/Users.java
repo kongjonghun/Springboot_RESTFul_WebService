@@ -11,9 +11,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.BatchSize;
 
+import javax.persistence.*;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -21,7 +23,10 @@ import java.util.Date;
 //@JsonIgnoreProperties(value = {"password", "ssn"}) // data 필드명으로 지정
 //@JsonFilter("UserInfo")
 @ApiModel(description = "사용자 상세 정보를 위한 도메인 객체")   // @ApiModel : 객체에 대한 Description(Documentation), @ApiModelProperty : 필드에 대한 Description
-public class User {
+@Entity
+public class Users {
+    @Id              // Table의 ID값
+    @GeneratedValue  // 값 자동 생성
     private Integer id;
 
     @Size(min = 2, message = "Name은 2글자 이상 입력해주세요.")  // 길이 제한
@@ -43,4 +48,15 @@ public class User {
     // 데이터 Filtering
     // 1. 필드 지정 : @JsonIgnore
     // 2. Class 지정 : @JsonIgnoreProperties
+
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts;
+
+    public Users(int id, String name, Date joinDate, String password, String ssn) {
+        this.id = id;
+        this.name = name;
+        this.joinDate = joinDate;
+        this.password = password;
+        this.ssn = ssn;
+    }
 }

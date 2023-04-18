@@ -5,12 +5,9 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -22,7 +19,7 @@ public class AdminUserController {
 
     @GetMapping("/users")
     public MappingJacksonValue retrieveAllUsers(){
-        List<User> users = service.findAll();
+        List<Users> users = service.findAll();
 
         SimpleBeanPropertyFilter simpleBeanPropertyFilter = SimpleBeanPropertyFilter.filterOutAllExcept("id", "name", "joinDate", "password");
         FilterProvider filterProvider = new SimpleFilterProvider().addFilter("UserInfo", simpleBeanPropertyFilter);
@@ -44,9 +41,9 @@ public class AdminUserController {
     //@GetMapping(value = "/users/{id}", headers = "X-API-VERSION=1")
     @GetMapping(value = "/users/{id}", produces = "application/vnd.company.appv1+json")
     public MappingJacksonValue retrieveUserV1(@PathVariable int  id){
-        User user = service.findOne(id);
+        Users users = service.findOne(id);
 
-        if(user == null){
+        if(users == null){
             throw new UserNotFoundException(String.format("ID[%s] not found", id));
         }
 
@@ -58,7 +55,7 @@ public class AdminUserController {
         // .addFilter(Filter Bean Name, filter)
         FilterProvider filterProvider = new SimpleFilterProvider().addFilter("UserInfo", filter);
 
-        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(user);
+        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(users);
         mappingJacksonValue.setFilters(filterProvider);
 
         return mappingJacksonValue;
@@ -69,15 +66,15 @@ public class AdminUserController {
     //@GetMapping(value = "/users/{id}", headers = "X-API-VERSION=2")
     @GetMapping(value = "/users/{id}", produces = "application/vnd.company.appv2+json")
     public MappingJacksonValue retrieveUserV2(@PathVariable int  id){
-        User user = service.findOne(id);
+        Users users = service.findOne(id);
 
-        if(user == null){
+        if(users == null){
             throw new UserNotFoundException(String.format("ID[%s] not found", id));
         }
 
         // User -> User2 Copy
-        UserV2 userV2 = new UserV2();
-        BeanUtils.copyProperties(user, userV2);  // id, name, joinDate, password, ssn
+        UsersV2 userV2 = new UsersV2();
+        BeanUtils.copyProperties(users, userV2);  // id, name, joinDate, password, ssn
         userV2.setGrade("VIP");
 
         // Response Filter

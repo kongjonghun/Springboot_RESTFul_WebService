@@ -11,57 +11,57 @@ import java.util.List;
 @Service
 public class UserDaoService {
 
-    private static List<User> users = new ArrayList<>();
+    private static List<Users> users = new ArrayList<>();
     private static int userCount = 3;
 
     static {
-        users.add(new User(1, "kennth", new Date(), "test1", "701010-1111111"));
-        users.add(new User(2, "alice", new Date(), "test2", "820411-1111111"));
-        users.add(new User(3, "elena", new Date(), "test3", "941010-1111111"));
+        users.add(new Users(1, "kennth", new Date(), "test1", "701010-1111111"));
+        users.add(new Users(2, "alice", new Date(), "test2", "820411-1111111"));
+        users.add(new Users(3, "elena", new Date(), "test3", "941010-1111111"));
     }
 
-    public List<User> findAll(){
+    public List<Users> findAll(){
         return users;
     }
 
-    public User findOne(int id){
-        for(User user : users){
-            if(user.getId() == id){
-                return user;
+    public Users findOne(int id){
+        for(Users users : UserDaoService.users){
+            if(users.getId() == id){
+                return users;
             }
         }
         return null;
     }
 
-    public User save(User user){
-        if(user.getId() == null){
-            user.setId(++userCount);
+    public Users save(Users users){
+        if(users.getId() == null){
+            users.setId(++userCount);
         }
-        users.add(user);
-        return user;
+        UserDaoService.users.add(users);
+        return users;
     }
 
-    public User deleteById(int id){
-        Iterator<User> iterator = users.iterator();
+    public Users deleteById(int id){
+        Iterator<Users> iterator = users.iterator();
 
         while (iterator.hasNext()){
-            User user = iterator.next();
+            Users users = iterator.next();
 
-            if(user.getId() == id){
+            if(users.getId() == id){
                 iterator.remove();
-                return user;
+                return users;
             }
         }
         return null;
     }
 
-    public User updateById(int id, User updateUser) {
-        User user = findOne(id);
-        if(user != null){
-            user.setName(updateUser.getName());
-            user.setJoinDate(updateUser.getJoinDate());
+    public Users updateById(int id, Users updateUsers) {
+        Users users = findOne(id);
+        if(users != null){
+            users.setName(updateUsers.getName());
+            users.setJoinDate(updateUsers.getJoinDate());
 
-            return user;
+            return users;
         }
         return null;
     }

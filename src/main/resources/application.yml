@@ -10,6 +10,24 @@ spring:
     basename: messages
   mvc:
     pathmatch:
-      matching-strategy: path_pattern_parser
+      matching-strategy: ant-path-matcher
+  security:
+    user:
+      name: username
+      password: passw0rd
+  datasource:
+    url: jdbc:h2:mem:testdb
+  jpa:
+    show-sql: true
+    defer-datasource-initialization: true
+  h2:
+    console:
+      enabled: true
 
 spring.main.allow-bean-definition-overriding: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
